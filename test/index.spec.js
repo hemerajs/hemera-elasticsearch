@@ -30,10 +30,13 @@ describe('Hemera-arango-store', function() {
       hemera.use(HemeraElasticsearch)
       hemera.ready(() => {
         elasticsearch = hemera.elasticsearch
-        elasticsearch.indices.delete({
-          index,
-          ignoreUnavailable: true
-        }, done)
+        elasticsearch.indices.delete(
+          {
+            index,
+            ignoreUnavailable: true
+          },
+          done
+        )
       })
     })
   })
@@ -44,8 +47,6 @@ describe('Hemera-arango-store', function() {
   })
 
   it('Create', function(done) {
-    const testDb = 'testdb'
-
     hemera.act(
       {
         topic,
