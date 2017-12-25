@@ -1,5 +1,6 @@
 # Hemera-elasticsearch package
 
+[![Build Status](https://travis-ci.org/hemerajs/hemera-elasticsearch.svg?branch=master)](https://travis-ci.org/hemerajs/hemera-elasticsearch)
 [![npm](https://img.shields.io/npm/v/hemera-elasticsearch.svg?maxAge=3600)](https://www.npmjs.com/package/hemera-elasticsearch)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](#badge)
 
