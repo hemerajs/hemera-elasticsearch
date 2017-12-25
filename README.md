@@ -13,14 +13,6 @@ This plugin based on the official driver [elasticsearch](https://github.com/elas
 docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.1.1
 ```
 
-## Interface
-Visit http://127.0.0.1:9200
-```
-Username: elastic
-Password: changeme
-```
-
-
 ## Install
 
 ```
@@ -41,8 +33,7 @@ const hemera = new Hemera(nats, {
 hemera.use(HemeraJoi)
 hemera.use(hemeraElasticsearch, {
   elasticsearch: {
-    log: 'trace',
-    httpAuth: 'elastic:changeme'
+    log: 'trace'
   }
 })
 
