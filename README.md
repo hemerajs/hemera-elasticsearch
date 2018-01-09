@@ -86,14 +86,14 @@ The pattern is:
 * `cmd`: is the command to execute `exists`
 * `data`:
   * `index`: the name of your index `string`
-  * `type`: the type of your document
-  * `id`: the id of your document
+  * `type`: the type of your document `string`
+  * `id`: the id of your document `string`
 
 Example:
 ```js
 hemera.act({
   topic: 'elasticsearch',
-  cmd: 'search',
+  cmd: 'exists',
   data: {
     index: 'my-index',
     type: 'my-type',
