@@ -71,4 +71,23 @@ describe('Hemera-arango-store', function() {
       }
     )
   })
+
+  it('Exists or not', function(done) {
+    hemera.act(
+      {
+        topic,
+        cmd: 'exists',
+        data: {
+          index,
+          type,
+          id: '1'
+        }
+      },
+      (err, resp) => {
+        expect(err).to.be.not.exists()
+        expect(resp).to.be.an.boolean()
+        done()
+      }
+    )
+  })
 })

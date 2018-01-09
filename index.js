@@ -45,6 +45,21 @@ function hemeraElasticSearch(hemera, opts, done) {
   hemera.add(
     {
       topic,
+      cmd: 'exists',
+      data: Joi.object().keys({
+        index: Joi.string().required(),
+        type: Joi.string().required(),
+        id: Joi.string().required()
+      })
+    },
+    req => {
+      return client.exists(req.data)
+    }
+  )
+
+  hemera.add(
+    {
+      topic,
       cmd: 'create',
       data: Joi.object().keys({
         index: Joi.string().required(),

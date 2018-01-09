@@ -78,6 +78,31 @@ hemera.act({
 ```
 
 -------------------------------------------------------
+### exists
+
+The pattern is:
+
+* `topic`: is the service name to publish to `elasticsearch`
+* `cmd`: is the command to execute `exists`
+* `data`:
+  * `index`: the name of your index `string`
+  * `type`: the type of your document `string`
+  * `id`: the id of your document `string`
+
+Example:
+```js
+hemera.act({
+  topic: 'elasticsearch',
+  cmd: 'exists',
+  data: {
+    index: 'my-index',
+    type: 'my-type',
+    id: 'jieu99'
+  }
+}, function(err, resp) ...)
+```
+
+-------------------------------------------------------
 ### create
 
 The pattern is:
