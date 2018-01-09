@@ -85,7 +85,7 @@ describe('Hemera-arango-store', function() {
       },
       (err, resp) => {
         expect(err).to.be.not.exists()
-        expect(resp).to.be.an.object()
+        expect(resp).to.be.an.boolean()
         done()
       }
     )
