@@ -146,7 +146,7 @@ function hemeraElasticSearch(hemera, opts, done) {
         body: Joi.object().required()
       })
     },
-    function(req, cb) {
+    req => {
       return client.refresh(req.data)
     }
   )

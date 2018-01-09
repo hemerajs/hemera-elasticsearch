@@ -27,19 +27,12 @@
   "license": "MIT",
   "dependencies": {
     "elasticsearch": "14.0.x",
-    "hemera-plugin": "^0.1.0"
+    "hemera-plugin": "^0.1.1"
   },
   "devDependencies": {
     "code": "^3.0.2",
     "eslint": "^4.9.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-mocha": "^4.11.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-prettier": "^2.4.0",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1",
+    "eslint-config-hemera": "^0.0.2",
     "hemera-joi": "^3.0.0",
     "hemera-testsuite": "^1.4.1",
     "mocha": "^4.0.1",
