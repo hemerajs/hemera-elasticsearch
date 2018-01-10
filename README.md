@@ -48,6 +48,7 @@ hemera.elasticsearch
 
 * [Elasticsearch API](#elasticsearch-api)
   * [search](#search)
+  * [exists](#exists)
   * [create](#create)
   * [delete](#delete)
   * [update](#update)
