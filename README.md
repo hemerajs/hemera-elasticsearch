@@ -64,10 +64,7 @@ The pattern is:
 
 * `topic`: is the service name to publish to `elasticsearch`
 * `cmd`: is the command to execute `search`
-* `data`: the name of the table or collection `string
-  * `index`: the name of your index `string`
-  * `body`: the search criteria `object` *(optional)*
-  * `q`: the search criteria `object` *(optional)*
+* `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-search)
 
 Example:
 ```js
@@ -85,10 +82,7 @@ The pattern is:
 
 * `topic`: is the service name to publish to `elasticsearch`
 * `cmd`: is the command to execute `exists`
-* `data`:
-  * `index`: the name of your index `string`
-  * `type`: the type of your document `string`
-  * `id`: the id of your document `string`
+* `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-exists)
 
 Example:
 ```js
