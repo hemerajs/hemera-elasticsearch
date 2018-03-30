@@ -7,7 +7,8 @@ function hemeraElasticSearch(hemera, opts, done) {
   const topic = 'elasticsearch'
   const Joi = hemera.joi
 
-  const client = new Elasticsearch.Client(opts.elasticsearch)
+  const client =
+    opts.elasticsearchInstance || new Elasticsearch.Client(opts.elasticsearch)
   hemera.decorate('elasticsearch', client)
 
   /**
