@@ -11,18 +11,24 @@ function hemeraElasticSearch(hemera, opts, done) {
     opts.elasticsearchInstance || new Elasticsearch.Client(opts.elasticsearch)
   hemera.decorate('elasticsearch', client)
 
-  /**
-   * Check if cluster is available otherwise exit this client.
-   */
-  client
-    .ping({
+  client.ping(
+    {
       requestTimeout: opts.elasticsearch.timeout
-    })
-    .then(() => hemera.log.debug('elasticsearch cluster is available'))
-    .catch(err => {
-      hemera.log.error(err, 'elasticsearch cluster is down!')
-      hemera.fatal()
-    })
+    },
+    function(err) {
+      if (err) {
+        done(err)
+      } else {
+        hemera.log.debug('elasticsearch cluster is available')
+        done()
+      }
+    }
+  )
+
+  hemera.ext('onClose', function closeESClient() {
+    hemera.log.debug('elasticsearch client is closing ...')
+    return client.close()
+  })
 
   hemera.add(
     {
@@ -132,8 +138,6 @@ function hemeraElasticSearch(hemera, opts, done) {
     },
     req => client.refresh(req.data)
   )
-
-  done()
 }
 
 module.exports = Hp(hemeraElasticSearch, {
