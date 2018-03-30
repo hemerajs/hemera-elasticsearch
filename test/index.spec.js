@@ -213,6 +213,6 @@ describe('Cluster availability', function() {
     return hemera
       .ready()
       .then(() => Code.fail('Should not be successfull'))
-      .catch(err => expect(err.message).to.be.equals('Request Timeout after 350ms'))
+      .catch(err => expect(err.message).to.be.equals('No Living connections'))
   })
 })
