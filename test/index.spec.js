@@ -9,7 +9,7 @@ const HemeraTestsuite = require('hemera-testsuite')
 
 const expect = Code.expect
 
-describe('Hemera-elasticsearch-store', function() {
+describe('Hemera-elasticsearch', function() {
   const topic = 'elasticsearch'
   let PORT = 6242
   const natsUrl = 'nats://localhost:' + PORT
@@ -179,5 +179,40 @@ describe('Hemera-elasticsearch-store', function() {
             expect(resp.data.hits.total).to.be.greaterThan(0)
           })
       })
+  })
+})
+
+describe('Cluster availability', function() {
+  let PORT = 6242
+  const natsUrl = 'nats://localhost:' + PORT
+
+  let server
+  let hemera
+
+  before(function(done) {
+    server = HemeraTestsuite.start_server(PORT, done)
+  })
+
+  after(function() {
+    hemera.close()
+    server.kill()
+  })
+
+  it('Should not connect successfully', () => {
+    const nats = Nats.connect(natsUrl)
+    hemera = new Hemera(nats, {
+      logLevel: 'error'
+    })
+    hemera.use(HemeraJoi)
+    hemera.use(HemeraElasticsearch, {
+      elasticsearch: {
+        timeout: 350,
+        host: 'localhost:9999'
+      }
+    })
+    return hemera
+      .ready()
+      .then(() => Code.fail('Should not be successfull'))
+      .catch(err => expect(err.message).to.be.equals('Request Timeout after 350ms'))
   })
 })
