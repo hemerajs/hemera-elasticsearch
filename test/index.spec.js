@@ -176,8 +176,7 @@ describe('Hemera-elasticsearch-store', function() {
           })
           .then(resp => {
             expect(resp.data).to.be.exists()
-            expect(resp.data.hits.total).to.be.equals(1)
-            expect(resp.data.hits.hits[0]._id).to.be.equals('4')
+            expect(resp.data.hits.total).to.be.greaterThan(0)
           })
       })
   })
