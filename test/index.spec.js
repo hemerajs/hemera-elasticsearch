@@ -9,10 +9,10 @@ const HemeraTestsuite = require('hemera-testsuite')
 
 const expect = Code.expect
 
-describe('Hemera-arango-store', function() {
+describe('Hemera-elasticsearch-store', function() {
   const topic = 'elasticsearch'
   let PORT = 6242
-  var natsUrl = 'nats://localhost:' + PORT
+  const natsUrl = 'nats://localhost:' + PORT
 
   let index = 'myindex'
   let type = 'mytype'
@@ -24,7 +24,7 @@ describe('Hemera-arango-store', function() {
     server = HemeraTestsuite.start_server(PORT, () => {
       const nats = Nats.connect(natsUrl)
       hemera = new Hemera(nats, {
-        logLevel: 'silent'
+        logLevel: 'error'
       })
       hemera.use(HemeraJoi)
       hemera.use(HemeraElasticsearch)
@@ -46,9 +46,9 @@ describe('Hemera-arango-store', function() {
     server.kill()
   })
 
-  it('Create', function(done) {
-    hemera.act(
-      {
+  it('Create', function() {
+    return hemera
+      .act({
         topic,
         cmd: 'create',
         data: {
@@ -63,31 +63,122 @@ describe('Hemera-arango-store', function() {
             counter: 1
           }
         }
-      },
-      (err, resp) => {
-        expect(err).to.be.not.exists()
-        expect(resp).to.be.an.object()
-        done()
-      }
-    )
+      })
+      .then(resp => {
+        expect(resp.data).to.be.an.object()
+      })
   })
 
-  it('Exists or not', function(done) {
-    hemera.act(
-      {
+  it('Exists', function() {
+    return hemera
+      .act({
         topic,
-        cmd: 'exists',
+        cmd: 'create',
         data: {
           index,
           type,
-          id: '1'
+          id: '2',
+          body: {
+            title: 'Test 1',
+            tags: ['y', 'z'],
+            published: true,
+            published_at: '2013-01-01',
+            counter: 1
+          }
         }
-      },
-      (err, resp) => {
-        expect(err).to.be.not.exists()
-        expect(resp).to.be.an.boolean()
-        done()
-      }
-    )
+      })
+      .then(resp => {
+        expect(resp.data).to.be.an.object()
+        return hemera
+          .act({
+            topic,
+            cmd: 'exists',
+            data: {
+              index,
+              type,
+              id: '2'
+            }
+          })
+          .then(resp => {
+            expect(resp.data).to.be.boolean()
+          })
+      })
+  })
+
+  it('Count', function() {
+    return hemera
+      .act({
+        topic,
+        cmd: 'create',
+        data: {
+          index,
+          type,
+          id: '3',
+          body: {
+            title: 'pants',
+            tags: ['y', 'z'],
+            published: true,
+            published_at: '2013-01-01',
+            counter: 1
+          }
+        }
+      })
+      .then(resp => {
+        expect(resp.data).to.be.an.object()
+        return hemera
+          .act({
+            topic,
+            cmd: 'count',
+            data: {
+              index
+            }
+          })
+          .then(resp => {
+            expect(resp.data.count).to.be.exists()
+          })
+      })
+  })
+
+  it('Search', function() {
+    return hemera
+      .act({
+        topic,
+        cmd: 'create',
+        data: {
+          index,
+          type,
+          id: '4',
+          refresh: true, // needed to to make this operation visible to search
+          body: {
+            title: 'pants',
+            tags: ['y', 'z'],
+            published: true,
+            published_at: '2013-01-01',
+            counter: 1
+          }
+        }
+      })
+      .then(resp => {
+        expect(resp.data).to.be.an.object()
+        return hemera
+          .act({
+            topic,
+            cmd: 'search',
+            data: {
+              index,
+              type,
+              body: {
+                query: {
+                  match: { title: 'pants' }
+                }
+              }
+            }
+          })
+          .then(resp => {
+            expect(resp.data).to.be.exists()
+            expect(resp.data.hits.total).to.be.equals(1)
+            expect(resp.data.hits.hits[0]._id).to.be.equals('4')
+          })
+      })
   })
 })

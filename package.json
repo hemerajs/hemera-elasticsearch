@@ -26,20 +26,20 @@
   "author": "Dustin Deus (https://github.com/StarpTech)",
   "license": "MIT",
   "dependencies": {
-    "elasticsearch": "14.0.x",
-    "hemera-plugin": "^0.1.1"
+    "elasticsearch": "14.2.2",
+    "hemera-plugin": "^1.1.1",
+    "hemera-joi": "^5.1.3"
   },
   "devDependencies": {
     "code": "^3.0.2",
-    "eslint": "^4.9.0",
-    "eslint-config-hemera": "^0.0.2",
-    "hemera-joi": "^3.0.0",
-    "hemera-testsuite": "^1.4.1",
-    "mocha": "^4.0.1",
-    "nats": "^0.7.24",
-    "nats-hemera": "^3.0.0",
-    "np": "^2.18.3",
-    "nyc": "^11.2.1",
-    "prettier": "^1.9.2"
+    "eslint": "^4.19.1",
+    "eslint-config-hemera": "^0.0.4",
+    "hemera-testsuite": "^4.0.0",
+    "mocha": "^5.0.5",
+    "nats": "^0.8.4",
+    "nats-hemera": "^5.0.2",
+    "np": "^2.20.1",
+    "nyc": "^11.6.0",
+    "prettier": "^1.11.1"
   }
 }

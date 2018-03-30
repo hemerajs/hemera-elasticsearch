@@ -10,7 +10,7 @@ This plugin based on the official driver [elasticsearch](https://github.com/elas
 ## Start elasticsearch via docker
 
 ```
-docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.2.3
 ```
 
 ## Install
@@ -26,9 +26,7 @@ const Hemera = require('nats-hemera')
 const HemeraJoi = require('hemera-joi')
 const nats = require('nats').connect()
 const hemeraElasticsearch = require('hemera-elasticsearch')
-const hemera = new Hemera(nats, {
-  logLevel: 'info'
-})
+const hemera = new Hemera(nats)
 
 hemera.use(HemeraJoi)
 hemera.use(hemeraElasticsearch, {
@@ -36,17 +34,20 @@ hemera.use(hemeraElasticsearch, {
     log: 'trace'
   }
 })
-
-// elasticsearch client instance
-hemera.elasticsearch
 ```
 
-## Dependencies
-- hemera-joi
+## Plugin dependencies
+
+* hemera-joi
+
+## Plugin decorators
+
+* .elasticsearch
 
 ## Interface
 
 * [Elasticsearch API](#elasticsearch-api)
+
   * [search](#search)
   * [exists](#exists)
   * [create](#create)
@@ -55,9 +56,9 @@ hemera.elasticsearch
   * [count](#count)
   * [bulk](#bulk)
   * [refresh](#refresh)
-  
- 
--------------------------------------------------------
+
+---
+
 ### search
 
 The pattern is:
@@ -67,15 +68,20 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-search)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'search',
-  data: {}
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'search',
+    data: {}
+  },
+  function(err, resp) {}
+)
 ```
 
--------------------------------------------------------
+---
+
 ### exists
 
 The pattern is:
@@ -85,19 +91,24 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-exists)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'exists',
-  data: {
-    index: 'my-index',
-    type: 'my-type',
-    id: 'jieu99'
-  }
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'exists',
+    data: {
+      index: 'my-index',
+      type: 'my-type',
+      id: 'jieu99'
+    }
+  },
+  function(err, resp) {}
+)
 ```
 
--------------------------------------------------------
+---
+
 ### create
 
 The pattern is:
@@ -107,15 +118,20 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-create)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'create',
-  data: {}
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'create',
+    data: {}
+  },
+  function(err, resp) {}
+)
 ```
 
--------------------------------------------------------
+---
+
 ### delete
 
 The pattern is:
@@ -125,15 +141,20 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-delete)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'delete',
-  data: {}
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'delete',
+    data: {}
+  },
+  function(err, resp) {}
+)
 ```
 
--------------------------------------------------------
+---
+
 ### update
 
 The pattern is:
@@ -143,15 +164,20 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-update)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'update',
-  data: {}
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'update',
+    data: {}
+  },
+  function(err, resp) {}
+)
 ```
 
--------------------------------------------------------
+---
+
 ### count
 
 The pattern is:
@@ -161,15 +187,20 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-count)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'count',
-  data: {}
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'count',
+    data: {}
+  },
+  function(err, resp) {}
+)
 ```
 
--------------------------------------------------------
+---
+
 ### bulk
 
 The pattern is:
@@ -179,15 +210,20 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-bulk)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'bulk',
-  data: {}
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'bulk',
+    data: {}
+  },
+  function(err, resp) {}
+)
 ```
 
--------------------------------------------------------
+---
+
 ### refresh
 
 The pattern is:
@@ -197,10 +233,14 @@ The pattern is:
 * `data`: options see [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-refresh)
 
 Example:
+
 ```js
-hemera.act({
-  topic: 'elasticsearch',
-  cmd: 'refresh',
-  data: {}
-}, function(err, resp) ...)
+hemera.act(
+  {
+    topic: 'elasticsearch',
+    cmd: 'refresh',
+    data: {}
+  },
+  function(err, resp) {}
+)
 ```

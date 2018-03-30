@@ -13,20 +13,15 @@ function hemeraElasticSearch(hemera, opts, done) {
   /**
    * Check if cluster is available otherwise exit this client.
    */
-  client.ping(
-    {
+  client
+    .ping({
       requestTimeout: opts.elasticsearch.timeout
-    },
-    function(error) {
-      if (error) {
-        hemera.log.error(error, 'elasticsearch cluster is down!')
-        hemera.fatal()
-      } else {
-        hemera.log.debug('elasticsearch cluster is available')
-        done()
-      }
-    }
-  )
+    })
+    .then(() => hemera.log.debug('elasticsearch cluster is available'))
+    .catch(err => {
+      hemera.log.error(err, 'elasticsearch cluster is down!')
+      hemera.fatal()
+    })
 
   hemera.add(
     {
@@ -34,12 +29,11 @@ function hemeraElasticSearch(hemera, opts, done) {
       cmd: 'search',
       data: Joi.object().keys({
         index: Joi.string(),
-        body: Joi.object()
+        body: Joi.object(),
+        q: Joi.string()
       })
     },
-    req => {
-      return client.search(req.data)
-    }
+    req => client.search(req.data)
   )
 
   hemera.add(
@@ -52,9 +46,7 @@ function hemeraElasticSearch(hemera, opts, done) {
         id: Joi.string().required()
       })
     },
-    req => {
-      return client.exists(req.data)
-    }
+    req => client.exists(req.data)
   )
 
   hemera.add(
@@ -68,9 +60,7 @@ function hemeraElasticSearch(hemera, opts, done) {
         body: Joi.object().required()
       })
     },
-    req => {
-      return client.create(req.data)
-    }
+    req => client.create(req.data)
   )
 
   hemera.add(
@@ -84,9 +74,7 @@ function hemeraElasticSearch(hemera, opts, done) {
         body: Joi.object().required()
       })
     },
-    req => {
-      return client.update(req.data)
-    }
+    req => client.update(req.data)
   )
 
   hemera.add(
@@ -102,9 +90,7 @@ function hemeraElasticSearch(hemera, opts, done) {
           .optional()
       })
     },
-    req => {
-      return client.delete(req.data)
-    }
+    req => client.delete(req.data)
   )
 
   hemera.add(
@@ -112,12 +98,11 @@ function hemeraElasticSearch(hemera, opts, done) {
       topic,
       cmd: 'count',
       data: Joi.object().keys({
-        index: Joi.string().required()
+        index: Joi.string().required(),
+        type: Joi.string()
       })
     },
-    req => {
-      return client.count(req.data)
-    }
+    req => client.count(req.data)
   )
 
   hemera.add(
@@ -130,9 +115,7 @@ function hemeraElasticSearch(hemera, opts, done) {
           .required()
       })
     },
-    req => {
-      return client.bulk(req.data)
-    }
+    req => client.bulk(req.data)
   )
 
   hemera.add(
@@ -146,22 +129,21 @@ function hemeraElasticSearch(hemera, opts, done) {
         body: Joi.object().required()
       })
     },
-    req => {
-      return client.refresh(req.data)
-    }
+    req => client.refresh(req.data)
   )
+
+  done()
 }
 
 module.exports = Hp(hemeraElasticSearch, {
-  hemera: '>=3',
+  hemera: '>=5.0.0',
   name: require('./package.json').name,
   dependencies: ['hemera-joi'],
   options: {
-    payloadValidator: 'hemera-joi',
     elasticsearch: {
       timeout: 3000,
       host: 'localhost:9200',
-      apiVersion: '6.0'
+      apiVersion: '6.2'
     }
   }
 })
