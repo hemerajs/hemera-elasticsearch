@@ -22,23 +22,13 @@ npm i hemera-elasticsearch --save
 ## Usage
 
 ```js
-const Hemera = require('nats-hemera')
-const HemeraJoi = require('hemera-joi')
-const nats = require('nats').connect()
-const hemeraElasticsearch = require('hemera-elasticsearch')
 const hemera = new Hemera(nats)
-
-hemera.use(HemeraJoi)
 hemera.use(hemeraElasticsearch, {
   elasticsearch: {
     log: 'trace'
   }
 })
 ```
-
-## Plugin dependencies
-
-* hemera-joi
 
 ## Plugin decorators
 

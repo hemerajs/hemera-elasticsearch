@@ -2,7 +2,6 @@
 
 const Hemera = require('nats-hemera')
 const HemeraElasticsearch = require('./../index')
-const HemeraJoi = require('hemera-joi')
 const Code = require('code')
 const Nats = require('nats')
 const HemeraTestsuite = require('hemera-testsuite')
@@ -26,7 +25,6 @@ describe('Hemera-elasticsearch', function() {
       hemera = new Hemera(nats, {
         logLevel: 'error'
       })
-      hemera.use(HemeraJoi)
       hemera.use(HemeraElasticsearch)
       hemera.ready(() => {
         elasticsearch = hemera.elasticsearch
@@ -203,11 +201,10 @@ describe('Cluster availability', function() {
     hemera = new Hemera(nats, {
       logLevel: 'error'
     })
-    hemera.use(HemeraJoi)
     hemera.use(HemeraElasticsearch, {
       elasticsearch: {
         timeout: 350,
-        host: 'localhost:9999'
+        host: 'localhost:1999'
       }
     })
     return hemera
