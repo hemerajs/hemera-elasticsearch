@@ -1,6 +1,7 @@
 'use strict'
 
 const Hemera = require('nats-hemera')
+const HemeraJoi = require('hemera-joi')
 const HemeraElasticsearch = require('./../index')
 const Code = require('code')
 const Nats = require('nats')
@@ -25,8 +26,13 @@ describe('Hemera-elasticsearch', function() {
       hemera = new Hemera(nats, {
         logLevel: 'error'
       })
+      hemera.use(HemeraJoi)
       hemera.use(HemeraElasticsearch)
-      hemera.ready(() => {
+      hemera.ready((err) => {
+        if(err) {
+          done(err)
+          return
+        }
         elasticsearch = hemera.elasticsearch
         elasticsearch.indices.delete(
           {

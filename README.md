@@ -23,7 +23,8 @@ npm i hemera-elasticsearch --save
 
 ```js
 const hemera = new Hemera(nats)
-hemera.use(hemeraElasticsearch, {
+hemera.use(equire('hemera-joi'))
+hemera.use(require('hemera-elasticsearch'), {
   elasticsearch: {
     log: 'trace'
   }
