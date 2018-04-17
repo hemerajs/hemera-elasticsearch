@@ -207,6 +207,7 @@ describe('Cluster availability', function() {
     hemera = new Hemera(nats, {
       logLevel: 'error'
     })
+    hemera.use(HemeraJoi)
     hemera.use(HemeraElasticsearch, {
       elasticsearch: {
         timeout: 350,
